@@ -1,0 +1,161 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #43affc;
+}
+.wrapper {
+  font-family: "Poppins", sans-serif;
+  background: #fff;
+  border-radius: 10px;
+  width: 420px;
+}
+.wrapper header {
+  color: #43affc;
+  font-size: 21px;
+  font-weight: 500;
+  padding: 16px;
+  border-bottom: 1px solid #bfbfbf;
+}
+header i {
+  display: none;
+  font-size: 0;
+  cursor: pointer;
+  margin-right: 12px;
+}
+.wrapper.active header i{
+  font-size: 21px;
+} 
+.wrapper.active .input{
+  display: none;
+} 
+.input {
+  margin: 25px;
+  box-sizing: content-box;
+}
+.input .info-text {
+  display: none;
+  border: 1px solid;
+  font-size: 17px;
+  text-align: center;
+  padding: 12px;
+  border-radius: 7px;
+}
+.input .error {
+  display: block;
+  color: #721c24;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+.input .pending {
+  display: block;
+  color: #0c5460;
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+}
+.input input,
+button {
+  width: 98%;
+  height: 55px;
+  font-size: 18px;
+  text-align: center;
+  border: 1px solid #bfbfbf;
+  outline: none;
+  border-radius: 7px;
+}
+.input button {
+  width: 100%;
+  color: #fff;
+  cursor: pointer;
+  background: #43affc;
+}
+.input input:is(:focus, :valid) {
+  border: 2px solid #43affc;
+}
+.input .seperator {
+  height: 1px;
+  width: 100%;
+  margin: 25px 0;
+  background: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.seperator::before {
+  content: "or";
+  padding: 0 15px;
+  background: #fff;
+  color: #ccc;
+}
+.wrapper .current-weather {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.wrapper.active .current-weather {
+display: flex;
+}
+.current-weather img {
+  margin-top:25px;
+  max-width: 125px;
+}
+.current-weather h1 {
+  margin: 5px 0 0;
+  display: flex;
+  font-weight: 900;
+  font-size: 72px;
+}
+
+.current-weather span {
+  font-size: 40px;
+  display: block;
+  margin: 10px 15px 0 0;
+}
+.current-weather .description {
+  /* border: 1px solid; */
+  font-size: 20px;
+  text-align: center;
+  margin: 0;
+}
+.current-weather .location {
+  /* border: 1px solid; */
+  font-size: 22px;
+  margin-top: 12px;
+  letter-spacing: 1.5px;
+  /* margin-bottom: 5px; */
+}
+.bottomDetails {
+  border-top: 1px solid #bfbfbf;
+  display: flex;
+  width: 100%;
+}
+.bottomDetails > div {
+  border-right: 1px solid #bfbfbf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 50%;
+}
+.bottomDetails p:first-child {
+  margin-bottom: 0;
+  /* border:1px solid red; */
+}
+.bottomDetails p:last-child {
+  margin-top: -8px;
+  /* border:1px solid red; */
+}
+
+.fa-temperature-full {
+  color: #43affc;
+  font-size: 30px;
+  margin-top: 5px;
+}
+.fa-droplet{
+    color: #43affc;
+    font-size: 30px;
+    margin-top: 5px;
+}
