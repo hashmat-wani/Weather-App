@@ -1,38 +1,49 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
 body {
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background: #43affc;
+  background-size: cover;
 }
 .wrapper {
+  min-height: 100vh;
+  margin: 0;
   font-family: "Poppins", sans-serif;
   background: #fff;
-  border-radius: 10px;
-  width: 420px;
+  width: 380px;
+}
+@media only screen and (max-width: 600px) {
+  .wrapper {
+    width: 100%;
+  }
 }
 .wrapper header {
   color: #43affc;
   font-size: 21px;
   font-weight: 500;
-  padding: 16px;
+  text-align: center;
   border-bottom: 1px solid #bfbfbf;
+  padding: 10px;
+}
+.wrapper.active header {
+  text-align: left;
 }
 header i {
-  display: none;
   font-size: 0;
   cursor: pointer;
-  margin-right: 12px;
 }
-.wrapper.active header i{
+.wrapper.active header i {
+  margin-right: 12px;
   font-size: 21px;
-} 
-.wrapper.active .input{
+}
+.wrapper.active .input {
   display: none;
-} 
+}
 .input {
-  margin: 25px;
+  margin: 20px;
   box-sizing: content-box;
 }
 .input .info-text {
@@ -68,6 +79,7 @@ button {
 .input button {
   width: 100%;
   color: #fff;
+  border: none;
   cursor: pointer;
   background: #43affc;
 }
@@ -89,18 +101,26 @@ button {
   background: #fff;
   color: #ccc;
 }
-.wrapper .current-weather {
+.wrapper .display {
   display: none;
+}
+.wrapper.active .display {
+  display: block;
+}
+
+.wrapper .current {
+  background: url("https://images.unsplash.com/photo-1517495306984-f84210f9daa8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80");
+}
+.current-weather {
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
-.wrapper.active .current-weather {
-display: flex;
-}
+
 .current-weather img {
-  margin-top:25px;
-  max-width: 125px;
+  margin-top: 20px;
+  width: 100px;
 }
 .current-weather h1 {
   margin: 5px 0 0;
@@ -117,7 +137,6 @@ display: flex;
 .current-weather .description {
   /* border: 1px solid; */
   font-size: 20px;
-  text-align: center;
   margin: 0;
 }
 .current-weather .location {
@@ -125,37 +144,130 @@ display: flex;
   font-size: 22px;
   margin-top: 12px;
   letter-spacing: 1.5px;
-  /* margin-bottom: 5px; */
 }
 .bottomDetails {
   border-top: 1px solid #bfbfbf;
   display: flex;
   width: 100%;
+  color: black;
 }
 .bottomDetails > div {
-  border-right: 1px solid #bfbfbf;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   width: 50%;
 }
+.bottomDetails > div:first-child {
+  border-right: 1px solid #bfbfbf;
+}
 .bottomDetails p:first-child {
   margin-bottom: 0;
-  /* border:1px solid red; */
 }
 .bottomDetails p:last-child {
   margin-top: -8px;
-  /* border:1px solid red; */
 }
 
 .fa-temperature-full {
   color: #43affc;
   font-size: 30px;
+  margin-top: 3px;
+}
+.fa-droplet {
+  color: #43affc;
+  font-size: 30px;
   margin-top: 5px;
 }
-.fa-droplet{
-    color: #43affc;
-    font-size: 30px;
-    margin-top: 5px;
+.display > section {
+  border-radius: 10px;
+  margin: 15px 10px;
+}
+
+.carousel {
+  background: url("https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80");
+  color: white;
+  overflow: hidden;
+  font-size: small;
+  font-weight: 500;
+}
+
+.carousel .track {
+  display: inline-flex;
+  touch-action: none;
+}
+.carousel .track .card {
+  /* border: 1px solid; */
+  width: 80px;
+  text-align: center;
+}
+.card img {
+  width: 80%;
+  margin: -20px;
+}
+.foreCast {
+  padding: 10px;
+  border-bottom: 1px solid #bfbfbf;
+}
+.dayCards {
+  display: flex;
+  padding: 0;
+  text-align: center;
+  border-bottom: 1px solid #bfbfbf;
+  justify-content: space-evenly;
+}
+.dayCards > p:first-child {
+  width: 55px;
+  text-align: left;
+}
+
+.dayCards > div {
+  height: 3px;
+  width: 60px;
+  background: tomato;
+  align-self: center;
+}
+.dayCards img {
+  width: 50px;
+  height: 50px;
+  align-self: center;
+}
+.mapouter {
+  position: relative;
+  text-align: right;
+  height: 400px;
+  width: 100%;
+}
+
+.gmap_canvas {
+  border-radius: 10px;
+  overflow: hidden;
+  background: none !important;
+  height: 400px;
+  width: 100%;
+}
+.footer_top {
+  margin: 20px;
+  color: #43affc;
+  border-top: 1px solid #bfbfbf;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  column-gap: 15px;
+  margin-bottom: 0;
+}
+
+.fa:hover {
+  transform: scale(0.9, 0.9);
+}
+.fa {
+  color: #43affc;
+  padding-top: 4px;
+  cursor: pointer;
+}
+.footer_bottom {
+  text-align: center;
+  border-top: 1px solid #bfbfbf;
+  margin: 0 70px;
+  font-size: small;
+  color: #bfbfbf;
 }

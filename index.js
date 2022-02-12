@@ -1,6 +1,12 @@
 let info_text = document.querySelector(".info-text");
 let wrapper = document.querySelector(".wrapper");
 let inputField = document.querySelector("input");
+let track = document.querySelector(".track");
+let trackDay = document.querySelector(".trkday");
+let trackHour = document.querySelector(".trkhour");
+
+let carousel = document.querySelector(".hourly-carousel");
+
 function currentLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
@@ -40,16 +46,17 @@ function fetchData(city, lat, lon) {
   info_text.innerText = "Getting weather details...";
   info_text.classList.add("pending");
 
-  let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely&units=metric&appid=${apiKey}`;
+  let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=metric&appid=${apiKey}`;
   fetch(api)
     .then((response) => response.json())
     .then((result) => displayWeather(result, city));
 }
 function displayWeather(info, city) {
+  // console.log(info);
   info_text.classList.remove("pending", "error");
-  wrapper.classList.add("active");
   let currentWeatherContainer = document.querySelector(".current-weather");
   currentWeatherContainer.innerHTML = null;
+  document.querySelector(".bottomDetails").innerHTML = null;
   let id = info.current.weather[0].id;
   wIcon = document.createElement("img");
   if (id == 800) {
@@ -73,13 +80,10 @@ function displayWeather(info, city) {
   loc = document.createElement("p");
   loc.classList.add("location");
   loc.innerHTML = `<i class="fa-solid fa-location-dot"></i>&nbsp${city}`;
-
-  bottomdetails = document.createElement("div");
-  bottomdetails.classList.add("bottomDetails");
+  currentWeatherContainer.append(wIcon, temp, description, loc);
 
   columnFeels = document.createElement("div");
   columnFeels.innerHTML = `<i class="fa-solid fa-temperature-full"></i>`;
-
   tempDiv = document.createElement("div");
   feeltemp = document.createElement("p");
   feeltemp.innerHTML = `${Math.round(info.current.feels_like)}° C`;
@@ -97,12 +101,147 @@ function displayWeather(info, city) {
   humiditymessage.textContent = "Humidity";
   humidityDiv.append(humidity, humiditymessage);
   columnHumidity.append(humidityDiv);
+  document.querySelector(".bottomDetails").append(columnFeels, columnHumidity);
 
-  bottomdetails.append(columnFeels, columnHumidity);
-  currentWeatherContainer.append(wIcon, temp, description, loc, bottomdetails);
+  let timestamp = info.hourly[0].dt;
+  let date = new Date(timestamp * 1000);
+  let starthour = date.getHours();
+  let hour = starthour;
+  trackHour.innerHTML = null;
+  info.hourly.forEach((e) => {
+    card = document.createElement("div");
+    card.classList.add("card");
+    cTime = document.createElement("p");
+    if (hour == starthour) cTime.textContent = `Now`;
+    else if (hour % 24 > 12) cTime.textContent = `${(hour % 24) - 12}PM`;
+    else if (hour % 24 < 12) {
+      if (hour % 24 == 0) cTime.textContent = `12AM`;
+      else cTime.textContent = `${hour % 24}AM`;
+    } else if ((hour % 24) - 12 == 0) cTime.textContent = `12PM`;
+
+    icon = document.createElement("img");
+    icon.src = `http://openweathermap.org/img/wn/${e.weather[0].icon}@2x.png`;
+
+    hourtemp = document.createElement("p");
+    hourtemp.textContent = `${Math.round(e.temp)}° C`;
+    card.append(cTime, icon, hourtemp);
+    trackHour.append(card);
+    hour++;
+  });
+
+  // console.log(info.daily);
+
+  let daystamp = info.daily[0].dt;
+  let dates = new Date(daystamp * 1000);
+  let startday = dates.getDay();
+  let day = startday;
+  let count = 0;
+
+  trackDay.innerHTML = null;
+  info.daily.forEach((e) => {
+    if (count < 7) {
+      cardDay = document.createElement("div");
+      cardDay.classList.add("dayCards");
+      cDate = document.createElement("p");
+      switch (day % 7) {
+        case startday:
+          cDate.textContent = `Today`;
+          break;
+        case 0:
+          cDate.textContent = `Sun`;
+          break;
+        case 1:
+          cDate.textContent = `Mon`;
+          break;
+        case 2:
+          cDate.textContent = `Tue`;
+          break;
+        case 3:
+          cDate.textContent = `Wed`;
+          break;
+        case 4:
+          cDate.textContent = `Thu`;
+          break;
+        case 5:
+          cDate.textContent = `Fri`;
+          break;
+        case 6:
+          cDate.textContent = `Sat`;
+          break;
+      }
+      dayicon = document.createElement("img");
+      dayicon.src = `http://openweathermap.org/img/wn/${e.weather[0].icon}@2x.png`;
+
+      minTemp = document.createElement("p");
+      minTemp.textContent = `${Math.round(e.temp.min)}° C`;
+      minTemp.style.width = "55px";
+
+      bar = document.createElement("div");
+      maxTemp = document.createElement("p");
+      maxTemp.textContent = `${Math.round(e.temp.max)}° C`;
+      maxTemp.style.width = "55px";
+
+      cardDay.append(cDate, dayicon, minTemp, bar, maxTemp);
+      trackDay.append(cardDay);
+      day++;
+      count++;
+    }
+  });
+
+  document.getElementById("gmap_canvas").src = `https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+  wrapper.classList.add("active");
 }
 let arrowBack = document.querySelector(".fa-arrow-left");
 arrowBack.addEventListener("click", () => {
   wrapper.classList.remove("active");
   inputField.value = "";
 });
+
+let moving = false;
+let transform = 0;
+let mouseLastPos = 0;
+let lastPageX = 0;
+let transformValue = 0;
+const gestureStart = (e) => {
+  moving = true;
+  mouseLastPos = e.pageX;
+  const transformMatrix = window
+    .getComputedStyle(track)
+    .getPropertyValue("transform");
+  if (transformMatrix !== "none") {
+    transform = parseInt(transformMatrix.split(",")[4].trim());
+  } else transform = 0;
+};
+
+const gestureMove = (e) => {
+  if (moving) {
+    const diff = e.pageX - mouseLastPos;
+    if (e.pageX - lastPageX > 0) {
+      if (transformValue > 0) {
+        return;
+      }
+    }
+
+    transformValue = transform + diff;
+    track.style.transform = `translateX(${transformValue}px)`;
+  }
+  lastPageX = e.pageX;
+};
+
+const gestureEnd = (e) => {
+  moving = false;
+};
+
+if (window.PointerEvent) {
+  track.addEventListener("pointerdown", gestureStart);
+  track.addEventListener("pointermove", gestureMove);
+  track.addEventListener("pointerup", gestureEnd);
+} else {
+  track.addEventListener("touchdown", gestureStart);
+  track.addEventListener("touchmove", gestureMove);
+  track.addEventListener("touchup", gestureEnd);
+
+  track.addEventListener("mousedown", gestureStart);
+  track.addEventListener("mousemove", gestureMove);
+  track.addEventListener("mouseup", gestureEnd);
+}
