@@ -11,7 +11,7 @@ function currentLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   } else {
-    alert("No");
+    alert("Your browser not support geolocation api");
   }
 }
 function onSuccess(position) {
@@ -45,11 +45,14 @@ inputField.addEventListener("keypress", (e) => {
 function fetchData(city, lat, lon) {
   info_text.innerText = "Getting weather details...";
   info_text.classList.add("pending");
-
   let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,alerts&units=metric&appid=${apiKey}`;
   fetch(api)
     .then((response) => response.json())
-    .then((result) => displayWeather(result, city));
+    .then((result) => displayWeather(result, city))
+    .catch((err) => {
+      info_text.innerText = err;
+      info_text.classList.replace("pending", "error");
+    });
 }
 function displayWeather(info, city) {
   // console.log(info);
@@ -188,7 +191,9 @@ function displayWeather(info, city) {
     }
   });
 
-  document.getElementById("gmap_canvas").src = `https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+  document.getElementById(
+    "gmap_canvas"
+  ).src = `https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
   wrapper.classList.add("active");
 }
 let arrowBack = document.querySelector(".fa-arrow-left");
