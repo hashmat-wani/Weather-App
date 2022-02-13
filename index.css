@@ -136,18 +136,18 @@ button {
 }
 .current-weather .description {
   /* border: 1px solid; */
-  font-size: 20px;
+  font-size: 18px;
   margin: 0;
 }
 .current-weather .location {
   /* border: 1px solid; */
-  font-size: 22px;
+  font-size: 20px;
   margin-top: 12px;
   letter-spacing: 1.5px;
 }
 .current-weather .currenttime {
   /* border: 1px solid; */
-  font-size: 22px;
+  font-size: 16px;
   margin-top: -9px;
   letter-spacing: 1.5px;
 }
