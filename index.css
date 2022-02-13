@@ -145,6 +145,12 @@ button {
   margin-top: 12px;
   letter-spacing: 1.5px;
 }
+.current-weather .currenttime {
+  /* border: 1px solid; */
+  font-size: 22px;
+  margin-top: -9px;
+  letter-spacing: 1.5px;
+}
 .bottomDetails {
   border-top: 1px solid #bfbfbf;
   display: flex;
