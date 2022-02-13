@@ -53,8 +53,11 @@ function fetchData(city, lat, lon) {
       info_text.classList.replace("pending", "error");
     });
 }
+// x = new Date()
+// var UTCseconds = (x.getTime() + x.getTimezoneOffset()*60*1000);
+// console.log(UTCseconds)
+
 function displayWeather(info, city) {
-  // console.log(info);
   info_text.classList.remove("pending", "error");
   let currentWeatherContainer = document.querySelector(".current-weather");
   currentWeatherContainer.innerHTML = null;
@@ -114,11 +117,11 @@ function displayWeather(info, city) {
   let timecount = 0;
   info.hourly.forEach((e) => {
     let timestamp = e.dt;
-    let curTime = new Date(timestamp * 1000 + 1800000).toLocaleString("en-US", {
+    let curTime = new Date(timestamp * 1000).toLocaleString("en-US", {
       timeZone: info.timezone,
       hour: "2-digit",
     });
-    // console.log(curTime);
+    console.log(curTime);
     card = document.createElement("div");
     card.classList.add("card");
     cTime = document.createElement("p");
