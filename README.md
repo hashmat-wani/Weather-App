@@ -9,7 +9,7 @@ Weather App that displays the weather wherever the user happened to be. I implem
 
 # Search Page
 
-![Search Page Image](./readme%20Images/searchPage.jpg)
+![Search Page Image](./readme%20Images/searchPage.png)
 
 # Weather display page:
 
