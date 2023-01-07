@@ -1,6 +1,7 @@
-SEARCH PAGE:
+# Search Page
 
-![Search Page Image](./readme%20Images/searchPage.png)
+![Search Page Image](./readme%20Images/searchPage.jpg)
 
-WEATHER PAGE:
+# Weather display page:
+
 ![Weather Page Image](./readme%20Images/weather.png)
